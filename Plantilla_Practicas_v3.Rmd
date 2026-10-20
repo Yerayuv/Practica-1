@@ -80,7 +80,7 @@ filename_json <- "data/iris_json.json"
 Al importar con base si funciona bien, pero con readr se importa todo en una sola columna si no modificas nada.
 
 ```{r}
-df <- read.csv(fname, stringsAsFactors = FALSE)
+df <- read.csv(fname ,stringsAsFactors = FALSE)
 
 library(hms)
 
@@ -117,6 +117,7 @@ summary(df)
 
 ## 3.1 Importación del fichero
 
+Al hacerlo manualmente, podemos cambiar el tipo de variable y eso nos da el codigo.
 
 ```{r}
 library(readr)
@@ -148,12 +149,14 @@ summary(df_bakery)
 
 ## 4.1 Importación del fichero
 
+Importamos haven, leemos el archivo y guardamos.
+
 ```{r}
 library(haven)
 
 df_psychbike <- read_sav(filename2)
 
-dir.create("data/results", showWarnings = FALSE, recursive = TRUE)
+
 save(df_psychbike, file = "data/results/PsychBike.RData")
 ```
 
@@ -180,6 +183,8 @@ summary(df_psychbike)
 
 ## 5.1 Descomprimir el fichero
 
+Escribimos las url, descargamos el zip y lo descomprimimos con las dos funciones.
+
 ```{r}
 url_iris <- "https://archive.ics.uci.edu/static/public/53/iris.zip"
 zip_path <- "data/iris.zip"
@@ -194,13 +199,15 @@ unzip(zip_path, exdir = "data")
 
 ## 6.1 Importación del fichero
 
+Leemos la tabla modificando el separador, cambiamos los nombres con una asignacion y guardamos los datos
+
 ```{r}
 iris_data <- read.table("data/iris.data",sep=",")
 
 
 names(iris_data) <- c("sepal_length", "sepal_width", "petal_length", "petal_width", "species")
 
-dir.create("data/results", showWarnings = FALSE, recursive = TRUE)
+
 save(iris_data, file = "data/results/iris_data.RData")
 ```
 
@@ -222,6 +229,8 @@ summary(iris_data)
 
 ## 7.1 Importación del fichero
 
+Importamos la librería 
+
 ```{r}
 library(jsonlite)
 
@@ -230,7 +239,9 @@ library(jsonlite)
 
 ## 7.2 Importar el fichero `FileCodificado.json`
 
-El simplify vectors permite convertir directamente a dataframe y poder trabajar con columnas, y no solo con filas
+Efectivamente el archivo se puede leer, asi que lo cargamos y guardamos.
+
+El simplify vectors permite convertir directamente a dataframe y poder trabajar con columnas, y no solo con filas.
 
 ```{r}
 df_json <- read_json(filename3, simplifyVector = TRUE)
@@ -261,7 +272,9 @@ summary(df_json)
 
 ## 8.1 Importar el fichero `iris_json.json`
 
-Las funciones tendrán diferencias, pero en la práctica, al menos con este caso, las funciones devuelven el mismo dataframe
+Importamos los datos con ambas funciones y guardamos el archivo.
+
+Las funciones tendrán diferencias, pero en la práctica, al menos con este caso, las funciones devuelven el mismo dataframe.
 
 ```{r}
 datos_read_json <- read_json(filename_json, simplifyVector = TRUE)
@@ -286,12 +299,19 @@ summary(datos_from_json)
 
 ## 8.3 exportar datos en formato JSON
 
+Cargamos iris_data y utilizamos write_json
+
 ```{r}
-write_json(iris_data, "data/iris_exportado.json", pretty = TRUE)
-filename5 <- 'data/iris_json_v2.json'
+load("data/results/iris_data.Rdata")
+write_json(iris_data, "data/results/iris_exportado.json", pretty = TRUE)
+
+filename <- 'data/iris_json_v2.json'
+
+json_string <- toJSON(iris, pretty = TRUE)
+write_file(json_string, filename)
 ```
 
-
+Si lo leemos efectivamente está bien. La diferencia es que con pretty se pone un formato con saltos de linea que facilita la lectura.
 # 9 Fichero *ERCA.xlsx*
 
 ## 9.1 Importación del fichero
