@@ -51,6 +51,7 @@ language:
     solution: 'Solución. '
 ---
 
+
 # 1 Introducción
 
 ## 1.1 Crea un proyecto
@@ -59,12 +60,12 @@ Proyecto creado con las carpetas necesarias
 
 ## 1.2 Rutas locales
 
+
 ```{r}
 fname <- 'data/DFP1_11122015 124700.csv'
 filename <- "data/bakery_sales_revised.csv"
 filename2 <- "data/PsychBike.sav"
 ```
-
 
 ## 1.3 Como presentar la memoria de prácticas
 
@@ -117,8 +118,10 @@ summary(df)
 
 ```{r}
 library(readr)
+df_bakery <- read_csv("data/bakery_sales_revised.csv", 
+    col_types = cols(Transaction = col_integer(), 
+        date_time = col_datetime(format = "%m/%d/%Y %H:%M")))
 
-df_bakery <- read_csv(filename)
 save(df_bakery, file = "data/results/bakery_sales.RData")
 ```
 
@@ -127,9 +130,9 @@ save(df_bakery, file = "data/results/bakery_sales.RData")
 
 Con el head y el tail vemos los primeros y ultimos elementos del dataset. Podemos resaltar que ambos tienen datos de fin de semana, los de head de mañana y los de tail de tarde.
 
-Con str vemos que hay 9684 muestras y que las variables son characters
+Con str vemos que hay 9684 muestras y que las variables son characters, excepto la fecha que hemos modificado a datetime y la de transaction que es integer
 
-Con summary solo hace lo estadistico de la columna que numera los pedidos, por lo que no da informacion
+Con summary solo nos da información de la fecha y de la de transaction
 
 ```{r}
 str(df_bakery)
@@ -175,9 +178,30 @@ summary(df_psychbike)
 
 ## 5.1 Descomprimir el fichero
 
+```{r}
+url_iris <- "https://archive.ics.uci.edu/static/public/53/iris.zip"
+zip_path <- "data/iris.zip"
+
+download.file(url_iris, destfile = zip_path, mode = "wb")
+
+unzip(zip_path, exdir = "data")
+```
+
+
 # 6 Fichero data *iris.data*
 
 ## 6.1 Importación del fichero
+
+```{r}
+iris_data <- read_table("data/iris.data", col_names = FALSE)
+
+
+names(iris_data) <- c("sepal_length", "sepal_width", "petal_length", "petal_width", "species")
+
+dir.create("data/results", showWarnings = FALSE, recursive = TRUE)
+save(iris_data, file = "data/results/iris_data.RData")
+```
+
 
 ## 6.2 Inspección de los datos
 
