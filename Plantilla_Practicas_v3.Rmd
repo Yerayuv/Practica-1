@@ -1,0 +1,217 @@
+---
+title: "Practica 1"
+author: "Yeray Antón Juárez"
+date: "`r Sys.Date()`"
+output:
+  bookdown::pdf_document2:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    figure_caption: "Figura" # Referencias en castellano
+    table_caption: "Tabla"
+  html_document:
+    echo: true
+    number_sections: true
+    theme: lumen
+    toc: true
+  html_notebook:
+    echo: true
+    number_sections: true
+    toc: true
+  pdf_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+  bookdown::html_document2:
+    echo: true
+    number_sections: true
+    theme: spacelab
+    toc: true
+    figure_caption: "Figura"
+    table_caption: "Tabla"
+always_allow_html: true
+params:
+  lang: ES
+lang: "`r switch(params$lang, ES = 'es-ES', EN = 'en-US')`"
+subtitle: "Introducción a la Ciencia de Datos. Máster en Ciencia de Datos- UV"
+language:
+  label:
+    fig: 'Figura '
+    tab: 'Tabla '
+    eq: 'Ecuación '
+    thm: 'Teorema '
+    lem: 'Lema '
+    def: 'Definición '
+    cor: 'Corolario '
+    prp: 'Proposición '
+    exm: 'Ejemplo '
+    exr: 'Ejercicio '
+    proof: 'Demostración. '
+    remark: 'Nota: '
+    solution: 'Solución. '
+---
+
+# 1 Introducción
+
+## 1.1 Crea un proyecto
+
+Proyecto creado con las carpetas necesarias
+
+## 1.2 Rutas locales
+
+```{r}
+fname <- 'data/DFP1_11122015 124700.csv'
+filename <- "data/bakery_sales_revised.csv"
+filename2 <- "data/PsychBike.sav"
+```
+
+
+## 1.3 Como presentar la memoria de prácticas
+
+### 1.3.1 Resultados a incluir en la memoria
+
+# 2 Ejemplo: fichero *DFP1_11122015 124700.csv*
+
+## 2.1 Importación del fichero
+
+Al importar con base si funciona bien, pero con readr se importa todo en una sola columna si no modificas nada.
+
+```{r}
+df <- read.csv(fname, stringsAsFactors = FALSE)
+
+library(hms)
+
+df$FECHA <- as.POSIXlt(df$FECHA)
+df$HORA <- as_hms(df$HORA)
+
+
+save(df, file ="data/results/resultado_DFP1.RData")
+
+```
+
+
+
+## 2.2 Inspección de los datos
+
+str te da el tipo de datos, la longitud y los primeros valores
+
+head te da las 6 primeras filas, mientras que tail las 6 ultimas
+
+summary da un resumen estadistico, con la media, los cuartiles, etc.
+
+
+
+```{r}
+str(df)
+head(df)
+tail(df)
+summary(df)
+```
+
+
+# 3 Fichero *Transactions from a Bakery* (Kaggle)
+
+
+## 3.1 Importación del fichero
+
+
+```{r}
+library(readr)
+
+df_bakery <- read_csv(filename)
+save(df_bakery, file = "data/results/bakery_sales.RData")
+```
+
+
+## 3.2 Inspección de los datos
+
+Con el head y el tail vemos los primeros y ultimos elementos del dataset. Podemos resaltar que ambos tienen datos de fin de semana, los de head de mañana y los de tail de tarde.
+
+Con str vemos que hay 9684 muestras y que las variables son characters
+
+Con summary solo hace lo estadistico de la columna que numera los pedidos, por lo que no da informacion
+
+```{r}
+str(df_bakery)
+head(df_bakery)
+tail(df_bakery)
+summary(df_bakery)
+```
+
+
+# 4 Fichero SPSS *PsychBike.sav*
+
+## 4.1 Importación del fichero
+
+```{r}
+library(haven)
+
+df_psychbike <- read_sav(filename2)
+
+dir.create("data/results", showWarnings = FALSE, recursive = TRUE)
+save(df_psychbike, file = "data/results/PsychBike.RData")
+```
+
+
+## 4.2 Inspección de los datos
+
+Esta vez summary si que da datos utiles, ya que por ejemplo, podemos ver la media de helmet (el porcentaje de gente que lleva casco), la hora media o la distancia media (cabe destacar que cosas como el color medio no tienen sentido)
+
+Con str vemos que hay 5 columnas y 2355 filas, y por ejemplo, los tipos de datos, que aunque hayan numeros algunos son characters.
+
+Las primeras y ultimas filas nos dan informacion general, pero nada muy interesante en este caso.
+
+
+
+```{r}
+str(df_psychbike)
+head(df_psychbike)
+tail(df_psychbike)
+summary(df_psychbike)
+```
+
+
+# 5 Fichero data *iris.zip*
+
+## 5.1 Descomprimir el fichero
+
+# 6 Fichero data *iris.data*
+
+## 6.1 Importación del fichero
+
+## 6.2 Inspección de los datos
+
+# 7 Fichero JSON *FileCodificado.json*
+
+## 7.1 Importación del fichero
+
+## 7.2 Importar el fichero `FileCodificado.json`
+
+## 7.3 Inspección de los datos
+
+# 8 Fichero JSON *iris_json.json*
+
+## 8.1 Importar el fichero `iris_json.json`
+
+## 8.2 Inspección de los datos
+
+## 8.3 exportar datos en formato JSON
+
+# 9 Fichero *ERCA.xlsx*
+
+## 9.1 Importación del fichero
+
+## 9.2 Inspección de los datos
+
+# 10 Fichero *subjectInfo.xlsx*
+
+## 10.1 Importación del fichero
+
+## 10.2 Inspección de los datos
+
+# 11 Fichero (HDF5) Robot.hdf5
+
+##11.1 Inspección del fichero
+
+## 11.2 Reading file
+
