@@ -66,6 +66,7 @@ fname <- 'data/DFP1_11122015 124700.csv'
 filename <- "data/bakery_sales_revised.csv"
 filename2 <- "data/PsychBike.sav"
 filename3 <- 'data/FileCodificado.json'
+filename_json <- "data/iris_json.json"
 ```
 
 ## 1.3 Como presentar la memoria de prácticas
@@ -84,7 +85,7 @@ df <- read.csv(fname, stringsAsFactors = FALSE)
 library(hms)
 
 df$FECHA <- as.POSIXlt(df$FECHA)
-df$HORA <- as_hms(df$HORA)
+df$HORA <- as.hms(df$HORA)
 
 
 save(df, file ="data/results/resultado_DFP1.RData")
@@ -260,9 +261,36 @@ summary(df_json)
 
 ## 8.1 Importar el fichero `iris_json.json`
 
+Las funciones tendrán diferencias, pero en la práctica, al menos con este caso, las funciones devuelven el mismo dataframe
+
+```{r}
+datos_read_json <- read_json(filename_json, simplifyVector = TRUE)
+datos_from_json <- fromJSON(filename_json)
+
+save(datos_from_json, file = "data/results/iris_json.RData")
+```
+
+
 ## 8.2 Inspección de los datos
 
+Al igual que con el iris.data, tenemos los mismos resultados en todas las funciones
+
+```{r}
+str(datos_from_json)
+head(datos_from_json)
+tail(datos_from_json)
+summary(datos_from_json)
+```
+
+
+
 ## 8.3 exportar datos en formato JSON
+
+```{r}
+write_json(iris_data, "data/iris_exportado.json", pretty = TRUE)
+filename5 <- 'data/iris_json_v2.json'
+```
+
 
 # 9 Fichero *ERCA.xlsx*
 
